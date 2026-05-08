@@ -78,8 +78,6 @@
   (set-fringe-mode 0)
   (setq-default indicate-empty-lines nil))
 
-;; 1. Switch Treemacs to use font-based icons instead of SVG images
-(setq doom-themes-treemacs-theme "nerd-icons")
 ;; Set the primary coding font
 (setq doom-font (font-spec :family "JetBrains Mono Nerd Font" :size 13 :weight 'semi-bold)
       ;; Set the variable pitch font (used for Org-mode headers/text)
@@ -147,32 +145,28 @@
 (map! :n "<f10>" #'my/vterm-broadcast-command)
 
 ;; =================================================================
-;; MASTER MATRIX UI: TRANSPARENCY, ORG-MODE, & TREEMACS
+;; =================================================================
+;; THE MASTER MATRIX OVERRIDE
 ;; =================================================================
 (defun my-apply-matrix-theme ()
-  "Apply the Glass Matrix look and fix Treemacs visibility."
+  "Apply the Glass Matrix look across all buffers, icons, and sidebars."
   (let ((m-green "#00FF6A")
         (d-green "#004400")
         (l-green "#66FF99"))
 
-    ;; 1. Force Terminal Transparency (The Bulletproof Way)
+    ;; 1. Force Terminal Transparency
     (unless (display-graphic-p)
       (set-face-background 'default "unspecified-bg")
       (set-face-background 'line-number "unspecified-bg"))
 
     (custom-set-faces!
-      ;; Core Text & Lines - Using "unspecified-bg" to let WezTerm show through
+      ;; --- Core UI ---
       `(default :background "unspecified-bg" :foreground ,m-green)
       `(line-number :foreground ,d-green :background "unspecified-bg")
       `(line-number-current-line :foreground ,m-green :background "unspecified-bg" :weight bold)
+      `(fringe :background "unspecified-bg")
 
-      ;; Treemacs Sidebar Visibility
-      `(treemacs-window-background-face :background "unspecified-bg")
-      `(treemacs-hl-line-face :background "unspecified-bg")
-      `(treemacs-file-face :foreground ,m-green)
-      `(treemacs-directory-face :foreground ,m-green :weight bold)
-
-      ;; Force EVERY Nerd-Icon color to be green (Folders use cyan/blue-alt)
+      ;; --- Nerd Icons: Force ALL colors to Matrix Green ---
       `(nerd-icons-green :foreground ,m-green)
       `(nerd-icons-blue :foreground ,m-green)
       `(nerd-icons-blue-alt :foreground ,m-green)
@@ -187,20 +181,53 @@
       `(nerd-icons-pink :foreground ,m-green)
       `(nerd-icons-silver :foreground ,m-green)
       `(nerd-icons-dsilver :foreground ,m-green)
+      `(nerd-icons-l-green :foreground ,m-green)
+      `(nerd-icons-d-green :foreground ,m-green)
 
-      ;; Org-Mode Headers
+      ;; --- Treemacs Specifics ---
+      `(solaire-default-face :background "unspecified-bg")
+      `(solaire-fringe-face :background "unspecified-bg")
+      `(treemacs-window-background-face :background "unspecified-bg")
+      `(treemacs-hl-line-face :background "#002200")
+      `(treemacs-file-face :foreground ,m-green)
+      `(treemacs-directory-face :foreground ,m-green :weight bold)
+      `(treemacs-git-modified-face :foreground ,l-green)
+
+      ;; --- Org-Mode & Syntax ---
       `(org-level-1 :foreground ,m-green :weight bold :height 1.3)
       `(org-level-2 :foreground ,l-green :weight bold :height 1.1)
-      `(org-level-3 :foreground ,m-green :weight bold)
-      `(org-todo :foreground ,m-green :weight bold)
-      `(org-done :foreground ,d-green :weight bold)
-
-      ;; Programming Syntax
       `(font-lock-keyword-face :foreground ,m-green :weight bold)
       `(font-lock-function-name-face :foreground ,m-green)
       `(font-lock-variable-name-face :foreground ,l-green)
-      `(font-lock-comment-face :foreground "#2ECC71" :slant italic))))
+      `(font-lock-string-face :foreground ,d-green)
+      `(font-lock-comment-face :foreground "#2ECC71" :slant italic)
 
-;; Run once immediately
+      ;; --- Dashboard & Vterm ---
+      `(doom-dashboard-banner :background "unspecified-bg")
+      `(doom-dashboard-menu-title :foreground ,l-green :background "unspecified-bg")
+      `(doom-dashboard-menu-desc :foreground ,m-green :background "unspecified-bg")
+      `(vterm-color-black :background "unspecified-bg"))))
+
+;; --- Unified Treemacs Setup ---
+(after! treemacs
+  (setq treemacs-width 25)
+  (treemacs-follow-mode 1)
+  (treemacs-filewatch-mode 1)
+
+  ;; 1. Load the icon library
+  (require 'treemacs-nerd-icons)
+  (setq treemacs-no-png-images t)
+
+  ;; 2. Load the theme FIRST
+  (treemacs-load-theme "nerd-icons")
+
+  ;; 3. Apply our green overrides LAST so they stick
+  (my-apply-matrix-theme))
+
+;; Hooks to keep it green during use
+(add-hook 'doom-load-theme-hook #'my-apply-matrix-theme)
+(add-hook 'treemacs-mode-hook #'my-apply-matrix-theme)
+(add-hook 'vterm-mode-hook #'my-apply-matrix-theme)
+
+;; Run once on startup
 (my-apply-matrix-theme)
-
