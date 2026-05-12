@@ -10,7 +10,8 @@
 ;; NOTE: Move your cursor over a module's name (or its flags) and press 'K' (or
 ;;   'C-c c k' for non-vim users) to view its documentation. This works on flags
 ;;   as well (those symbols that start with a plus).
-;;
+;root@RALPH-RIG-2020:~/PowerMouse/src/powermouse#
+
 ;;   Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;   directory (for easy access to its source code).
 
@@ -21,7 +22,7 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       ;;company           ; the ultimate code completion backend
+       ;;(company +childframe) ; the ultimate code completion backend
        (corfu +orderless)  ; complete with cap(f), cape and a flying feather!
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
@@ -66,7 +67,7 @@
        ;;rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to
        (whitespace +guess +trim)  ; a butler for your whitespace
-       ;;word-wrap         ; soft wrapping with language-aware indent
+       word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
        dired             ; making dired pretty [functional]
@@ -100,14 +101,14 @@
        (eval +overlay)     ; run code, run (also, repls)
        lookup              ; navigate your code and its documentation
        ;;llm               ; when I said you needed friends, I didn't mean...
-       ;;(lsp +eglot)      ; M-x vscode
+       (lsp +peek)      ; M-x vscode
        magit             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        ;;pdf               ; pdf enhancements
        ;;terraform         ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
-       ;;tree-sitter       ; syntax and parsing, sitting in a tree...
+       tree-sitter       ; syntax and parsing, sitting in a tree...
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :os
@@ -165,7 +166,10 @@
        ;;plantuml          ; diagrams for confusing people more
        ;;graphviz          ; diagrams for confusing yourself even more
        ;;purescript        ; javascript, but functional
-       (python +ipynb)            ; beautiful is better than ugly
+       (python
+        +lsp
+        +tree-sitter
+        +ipynb)            ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
        ;;raku              ; the artist formerly known as perl6
@@ -181,7 +185,7 @@
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
        ;;web               ; the tubes
-       ;;yaml              ; JSON, but readable
+       yaml              ; JSON, but readable
        ;;zig               ; C, but simpler
 
        :email

@@ -152,7 +152,9 @@
   "Apply the Glass Matrix look across all buffers, icons, and sidebars."
   (let ((m-green "#00FF6A")
         (d-green "#004400")
-        (l-green "#66FF99"))
+        (l-green "#66FF99")
+        (l-purple "#552583")
+        (l-gold "#FDB927"))
 
     ;; 1. Force Terminal Transparency
     (unless (display-graphic-p)
@@ -196,10 +198,13 @@
       ;; --- Org-Mode & Syntax ---
       `(org-level-1 :foreground ,m-green :weight bold :height 1.3)
       `(org-level-2 :foreground ,l-green :weight bold :height 1.1)
-      `(font-lock-keyword-face :foreground ,m-green :weight bold)
-      `(font-lock-function-name-face :foreground ,m-green)
-      `(font-lock-variable-name-face :foreground ,l-green)
-      `(font-lock-string-face :foreground ,d-green)
+
+      `(font-lock-bracket-face :foreground ,l-gold)
+      `(font-lock-type-face :foreground ,l-gold :weight bold)
+      `(font-lock-keyword-face :foreground ,l-purple :weight bold)
+      `(font-lock-function-name-face :foreground ,l-gold)
+      `(font-lock-variable-name-face :foreground ,d-green)
+      `(font-lock-string-face :foreground ,l-green)
       `(font-lock-comment-face :foreground "#2ECC71" :slant italic)
 
       ;; --- Dashboard & Vterm ---
