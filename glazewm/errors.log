@@ -1,0 +1,13 @@
+[2m2026-02-24T03:20:47.939726Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Another instance of the application is already running.
+[2m2026-02-24T09:23:07.380022Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Another instance of the application is already running.
+[2m2026-02-24T21:19:20.044212Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Failed to execute 'zed'.
+
+Error: The operation was canceled by the user. (0x800704C7)
+[2m2026-02-24T21:20:17.657633Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Program path is not valid for command 'C:\Users\ashis\Desktop\Discord.lnk'.
+[2m2026-03-14T01:03:08.322644Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Another instance of the application is already running.
+[2m2026-03-20T03:38:10.397434Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Program path is not valid for command 'C:\Users\ashis\Desktop\Spotify.lnk'.
+[2m2026-03-20T03:39:58.615348Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Program path is not valid for command 'C:\Users\ashis\Desktop\Spotify.lnk'.
+[2m2026-03-20T03:55:37.267543Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Program path is not valid for command 'C:\Users\ashis\Desktop\Discord.lnk'.
+[2m2026-03-22T01:19:11.966855Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Program path is not valid for command 'C:\Users\ashis\Desktop\Discord.lnk'.
+[2m2026-03-26T20:36:48.046675Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Program path is not valid for command 'C:\Users\ashis\Desktop\Discord.lnk'.
+[2m2026-04-18T22:42:47.147364Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Program path is not valid for command 'C:\Users\ashis\Desktop\VSCode.lnk'.
