@@ -159,17 +159,15 @@
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        ;;odin              ; C, minus its footguns
-       (org
-        +pretty
-        +jupyter)               ; organize your plain life in plain text
+       (org +pretty)               ; organize your plain life in plain text
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;graphviz          ; diagrams for confusing yourself even more
        ;;purescript        ; javascript, but functional
        (python
         +lsp
-        +tree-sitter
-        +ipynb)            ; beautiful is better than ugly
+        +pyright
+        +tree-sitter)            ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
        ;;raku              ; the artist formerly known as perl6
@@ -203,4 +201,4 @@
        :config
        ;;literate
        (default +bindings +smartparens))
-       (xterm-mouse-mode 1)
+(xterm-mouse-mode 1)

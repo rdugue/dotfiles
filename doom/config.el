@@ -83,19 +83,47 @@
       ;; Set the variable pitch font (used for Org-mode headers/text)
       doom-variable-pitch-font (font-spec :family "JetBrains Mono Nerd Font" :size 16))
 
+;; LSP <-> Corfu wiring.
+;; lsp-mode only turns on `lsp-completion-mode' (which is what adds
+;; `lsp-completion-at-point' to `completion-at-point-functions') when
+;; `lsp-completion-provider' is NOT :none. The name :capf is legacy --
+;; in modern lsp-mode it just means "enable lsp-completion-mode", which
+;; is exactly what corfu needs.
+(after! lsp-mode
+  (setq lsp-completion-provider :capf
+        lsp-completion-enable t
+        lsp-idle-delay 0.1
+        lsp-completion-show-detail t
+        lsp-completion-show-kind t)
+  ;; Belt-and-suspenders: force lsp-completion-mode on whenever lsp attaches,
+  ;; and shove lsp-completion-at-point to the front of capf so corfu sees it
+  ;; before anything Doom may have prepended (yasnippet, dabbrev, etc.).
+  (add-hook 'lsp-completion-mode-hook
+            (lambda ()
+              (when lsp-completion-mode
+                (setq-local completion-at-point-functions
+                            (cons #'lsp-completion-at-point
+                                  (remove #'lsp-completion-at-point
+                                          completion-at-point-functions)))))))
+
+(add-hook 'lsp-managed-mode-hook #'lsp-completion-mode)
+
+(after! corfu
+  (setq corfu-auto t            ; Enable auto-completion
+        corfu-auto-delay 0.1    ; Tiny delay (0.0 can race with LSP)
+        corfu-auto-prefix 2     ; Pop up after 2 chars
+        corfu-preselect 'first) ; Preselect the first suggestion
+  ;; NOTE: do NOT call (global-corfu-mode) here. Doom's :completion corfu
+  ;; module already enables it via `doom-first-input-hook'. Calling it again
+  ;; with no argument TOGGLES it off, which is why auto-popups stop working
+  ;; and only the manual C-SPC trigger shows anything.
+  )
+
 (setq org-capture-templates
       '(("d" "Daily Checklist" entry
          (file+headline "~/org/daily.org" "Checklist")
          "* TODO %? Daily Routine [/]\nSCHEDULED: %t\n:PROPERTIES:\n:RESET_CHECK_BOXES: t\n:END:\n- [ ] Task 1\n- [ ] Task 2\n- [ ] Task 3"
          :immediate-finish t)))
-
-(use-package! ox-ipynb
-  :after org
-  :config
-  ;; This ensures your code blocks use the right Jupyter kernel during export
-  (setq org-babel-default-header-args:jupyter-python
-        '((:session . "py")
-          (:kernel . "python3"))))
 
 (after! org
   (require 'org-checklist))
@@ -103,8 +131,7 @@
 (after! org
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((python . t)      ; Adds standard Python support
-     (jupyter . t))))  ; Adds Jupyter-specific support for ox-ipynb
+   '((python . t))))  ; Adds Jupyter-specific support for ox-ipynb
 
 ;; 1. Define custom functions to split and instantly open vterm
 (defun my/vterm-split-vertical ()
@@ -194,6 +221,11 @@
       `(treemacs-file-face :foreground ,m-green)
       `(treemacs-directory-face :foreground ,m-green :weight bold)
       `(treemacs-git-modified-face :foreground ,l-green)
+
+      ;; Make sure the completion popup stands out
+      `(corfu-default :background "#001100" :foreground ,m-green)
+      `(corfu-current :background ,d-green :foreground ,m-green :weight bold)
+      `(corfu-border  :background ,m-green)
 
       ;; --- Org-Mode & Syntax ---
       `(org-level-1 :foreground ,m-green :weight bold :height 1.3)
